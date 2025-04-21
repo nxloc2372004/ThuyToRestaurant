@@ -1,0 +1,368 @@
+﻿@model ThuyTo.Models.Product
+@using Microsoft.AspNetCore.Http
+@using ThuyTo.Models
+@using ThuyTo.SessionSystem
+@{
+    ViewData["Title"] = Model.ProductName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="left-sidebar-layout detail-section container-section">
+	<div class="container">
+		<div class="content-box">
+			<div class="row	">
+				<div class="col-xl-3 col-lg-3 col-md-12">
+					<partial name="~/Views/Shared/LeftSidebarProductPartialView.cshtml" />
+				</div>
+				<div class="col-xl-9 col-lg-9 col-md-12">
+					<div class="main-content-box">
+						<div class="breadcrumb-header">
+							<a href="">Trang chủ</a>
+							<span>></span>
+							<a href="">Sản phẩm</a>
+							<span>></span>
+							<a href="">Thực đơn</a>
+						</div>
+					</div>
+
+					<div class="main-content-box mt-3">
+						<div class="row">
+							<div class="col-lg-5 col-xl-5 col-sm-12">
+								<div class="detail-left-box">
+									<img src="/images/@Model.ProductImage" class="detail-image w-100" />
+								</div>
+							</div>
+							<div class="col-lg-7 col-xl-7 col-sm-12">
+								<div class="detail-right-box text-center">
+									<h4 class="detail-product-name">@Model.ProductName</h4>
+									<div class="detail-product-price mb-2">
+										@if(Model.ProductDisCount == 0)
+										{
+											<span class="new-price">@String.Format("{0:0,0 đ}", Model.ProductPrice)</span>
+										} else
+										{
+											<span class="old-price">@String.Format("{0:0,0 đ}", Model.ProductPrice)</span>
+											<span class="new-price">@String.Format("{0:0,0 đ}", Model.ProductPrice - Model.ProductPrice * Model.ProductDisCount / 100)</span>
+										}
+									</div>
+									<p class="detail-product-desc truncate-text truncate-4-line">@Model.ProductDesc</p>
+									<ul class="list-unstyled detail-button-box d-flex justify-content-center m-0 mt-5">
+										<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" data-productid="@Model.ProductId" class="icon-heart favourite-btn"></a></li>
+										
+										<li class="mr-2 overflow-hidden"><a data-productid="@Model.ProductId" class="addcart-btn icon-cart"></a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="main-content-box mt-3">
+						<div class="product-detail">
+							<div class="product-detail-content">
+								@Html.Raw(Model.ProductDetail)
+							</div>
+						</div>
+					</div>
+
+                    <div class="main-content-box mt-3">
+                        <div class="product-feedback-section">
+                            <!-- Phần hiển thị đánh giá trung bình -->
+                            <div class="average-rating-box text-center p-4 mb-4 bg-light rounded">
+                                @{
+                                    var feedbackCount = Model.Feedbacks?.Count ?? 0;
+                                    var avgRating = feedbackCount > 0 ? Model.Feedbacks.Average(f => f.Rating) : 0;
+                                    var roundedAvgRating = Math.Round(avgRating * 2) / 2; // Làm tròn đến 0.5
+                                }
+                                <h4 class="mb-3">Đánh giá sản phẩm</h4>
+                                <div class="average-rating mb-2">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        if (i <= Math.Floor(roundedAvgRating))
+                                        {
+                                            <i class="fas fa-star text-warning" style="font-size: 2rem;"></i>
+                                        }
+                                        else if (i - 0.5 <= roundedAvgRating)
+                                        {
+                                            <i class="fas fa-star-half-alt text-warning" style="font-size: 2rem;"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="far fa-star text-warning" style="font-size: 2rem;"></i>
+                                        }
+                                    }
+                                    <span class="ml-2" style="font-size: 1.5rem;">@avgRating.ToString("0.0")/5</span>
+                                </div>
+                                <div class="rating-count mb-2">
+                                    @for (int i = 5; i >= 1; i--)
+                                    {
+                                        var count = Model.Feedbacks?.Count(f => f.Rating == i) ?? 0;
+                                        var percent = feedbackCount > 0 ? (count * 100 / feedbackCount) : 0;
+                                        <div class="d-flex align-items-center mb-2">
+                                            <span class="mr-2">@i <i class="fas fa-star text-warning"></i></span>
+                                            <div class="progress flex-grow-1" style="height: 10px;">
+                                                <div class="progress-bar bg-warning" role="progressbar" style="width: @percent%;"
+                                                     aria-valuenow="@percent" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <span class="ml-2">@count</span>
+                                        </div>
+                                    }
+                                </div>
+                                <p class="text-muted">Tổng số đánh giá: @feedbackCount</p>
+                            </div>
+
+                            <!-- Form đánh giá -->
+                            <div class="feedback-form-box p-4 mb-4 border rounded">
+                                <h5 class="mb-3">Viết đánh giá của bạn</h5>
+                                @if (HttpContextAccessor.HttpContext.Session.GetInt32("USERID") != null)
+                                {
+                                    <div class="form-group">
+                                        <div class="star-rating mb-3">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                <i class="far fa-star rating-star" data-rating="@i" style="font-size: 2rem; cursor: pointer;"></i>
+                                            }
+                                            <input type="hidden" id="selected-rating" value="0" />
+                                        </div>
+                                        <textarea id="feedback-text" class="form-control" rows="4"
+                                                  placeholder="Hãy chia sẻ cảm nhận của bạn về sản phẩm..."
+                                                  maxlength="500"></textarea>
+                                        <small class="text-muted float-right"><span id="char-count">0</span>/500</small>
+                                        <div class="text-right mt-3">
+                                            <button id="submit-feedback" class="btn btn-primary" disabled>
+                                                <i class="fas fa-paper-plane mr-2"></i>Gửi đánh giá
+                                            </button>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-info">
+                                        <p class="mb-0">Vui lòng <a href="/Account/Login?returnUrl=@Context.Request.Path" class="font-weight-bold">đăng nhập</a> để đánh giá sản phẩm.</p>
+                                    </div>
+                                }
+
+                            </div>
+
+                            <!-- Danh sách đánh giá -->
+                            <div class="feedback-list">
+                                <h5 class="mb-4">Đánh giá từ khách hàng (@feedbackCount)</h5>
+
+                                @if (Model.Feedbacks?.Any() == true)
+                                {
+                                    foreach (var feedback in Model.Feedbacks.OrderByDescending(f => f.CreatedDate))
+                                    {
+                                        <div class="feedback-item mb-4 p-3 border rounded">
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <div>
+                                                    <strong class="mr-2">@feedback.User?.FullName</strong>
+                                                    
+                                                </div>
+                                                <small class="text-muted">@feedback.CreatedDate.ToString("dd/MM/yyyy HH:mm")</small>
+                                            </div>
+                                            <div class="star-rating mb-2">
+                                                @for (int i = 1; i <= 5; i++)
+                                                {
+                                                    <i class="@(i <= feedback.Rating ? "fas" : "far") fa-star text-warning"></i>
+                                                }
+                                            </div>
+                                            <p class="feedback-content">@feedback.FeedbackText</p>
+
+                                            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                                            {
+                                                <div class="text-right">
+                                                    <button class="btn btn-sm btn-outline-danger delete-feedback" data-id="@feedback.FeedbackId">
+                                                        <i class="fas fa-trash"></i> Xóa
+                                                    </button>
+                                                </div>
+                                            }
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="alert alert-warning">
+                                        <p class="mb-0">Chưa có đánh giá nào cho sản phẩm này. Hãy là người đầu tiên đánh giá!</p>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+				</div>
+			</div>
+
+			@await Component.InvokeAsync("RelevantProduct",  new {ProductId = Model.ProductId, CategoryId = Model.CategoryId})
+		</div>
+	</div>
+</section>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Đếm ký tự trong textarea
+            $('#feedback-text').on('input', function () {
+                var length = $(this).val().length;
+                $('#char-count').text(length);
+
+                // Enable/disable nút gửi tùy vào điều kiện
+                var rating = $('#selected-rating').val();
+                $('#submit-feedback').prop('disabled',
+                    length < 10 || length > 500 || rating == 0);
+            });
+
+            // Chọn sao đánh giá
+            $('.star-rating .rating-star').on('click', function () {
+                var rating = $(this).data('rating');
+                $('#selected-rating').val(rating);
+
+                // Cập nhật hiển thị sao
+                $(this).parent().find('.rating-star').each(function () {
+                    if ($(this).data('rating') <= rating) {
+                        $(this).removeClass('far').addClass('fas');
+                    } else {
+                        $(this).removeClass('fas').addClass('far');
+                    }
+                });
+
+                // Enable/disable nút gửi
+                var textLength = $('#feedback-text').val().length;
+                $('#submit-feedback').prop('disabled',
+                    textLength < 10 || textLength > 500);
+            });
+
+            // Gửi đánh giá
+            $('#submit-feedback').on('click', function () {
+                var productId = @Model.ProductId;
+                var rating = $('#selected-rating').val();
+                var feedbackText = $('#feedback-text').val().trim();
+
+                if (!rating || rating < 1 || rating > 5) {
+                    toastr.error('Vui lòng chọn số sao đánh giá');
+                    return;
+                }
+
+                if (feedbackText.length < 10 || feedbackText.length > 500) {
+                    toastr.error('Đánh giá phải từ 10 đến 500 ký tự');
+                    return;
+                }
+
+                $.ajax({
+                    url: '/Product/SubmitFeedback',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        ProductId: productId,
+                        Rating: rating,
+                        FeedbackText: feedbackText
+                    }),
+                    success: function (response) {
+                        if (response.success) {
+                            toastr.success(response.message);
+
+                            // Thêm đánh giá mới vào danh sách
+                            var feedbackHtml = `
+                                        <div class="feedback-item mb-4 p-3 border rounded">
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <strong>${response.data.fullName}</strong>
+                                                <small class="text-muted">${response.data.createdDate}</small>
+                                            </div>
+                                            <div class="star-rating mb-2">
+                                                ${'<i class="fas fa-star text-warning"></i>'.repeat(response.data.rating)}
+                                                ${'<i class="far fa-star text-warning"></i>'.repeat(5 - response.data.rating)}
+                                            </div>
+                                            <p class="feedback-content">${response.data.feedbackText}</p>
+                                        </div>`;
+
+                            $('.feedback-list').prepend(feedbackHtml);
+
+                            // Reset form
+                            $('#feedback-text').val('');
+                            $('#char-count').text('0');
+                            $('.rating-star').removeClass('fas').addClass('far');
+                            $('#selected-rating').val('0');
+                            $('#submit-feedback').prop('disabled', true);
+
+                            // Cập nhật thống kê đánh giá
+                            updateRatingStats();
+                        } else {
+                            if (response.loginRequired) {
+                                window.location.href = '/Account/Login?returnUrl=' + window.location.pathname;
+                            } else {
+                                toastr.error(response.message);
+                            }
+                        }
+                    },
+                    error: function () {
+                        toastr.error('Có lỗi xảy ra, vui lòng thử lại sau');
+                    }
+                });
+            });
+
+            // Xóa đánh giá (chỉ admin)
+            $(document).on('click', '.delete-feedback', function () {
+                if (!confirm('Bạn có chắc chắn muốn xóa đánh giá này?')) return;
+
+                var feedbackId = $(this).data('id');
+                var $feedbackItem = $(this).closest('.feedback-item');
+
+                $.ajax({
+                    url: '/Product/DeleteFeedback/' + feedbackId,
+                    method: 'POST',
+                    success: function (response) {
+                        if (response.success) {
+                            $feedbackItem.remove();
+                            toastr.success(response.message);
+                            updateRatingStats();
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function () {
+                        toastr.error('Có lỗi xảy ra khi xóa đánh giá');
+                    }
+                });
+            });
+
+            // Hàm cập nhật thống kê đánh giá
+            function updateRatingStats() {
+                // Có thể thêm AJAX để lấy dữ liệu mới nhất từ server
+                // hoặc tính toán lại từ danh sách hiện có
+            }
+        });
+    </script>
+}
+<style>
+    /* Rating stars */
+    .star-rating {
+        color: #ffcc00;
+        font-size: 1.2rem;
+    }
+
+    /* Feedback item */
+    .feedback-item {
+        transition: all 0.3s ease;
+    }
+
+        .feedback-item:hover {
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        }
+
+    /* Progress bar for rating distribution */
+    .progress {
+        background-color: #e9ecef;
+    }
+
+    .progress-bar {
+        transition: width 0.6s ease;
+    }
+
+    /* Character count */
+    #char-count {
+        font-weight: bold;
+    }
+
+    /* Disabled submit button */
+    #submit-feedback:disabled {
+        opacity: 0.65;
+        cursor: not-allowed;
+    }
+</style>
+

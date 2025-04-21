@@ -1,0 +1,169 @@
+﻿@using PagedList.Core
+@model IPagedList<ThuyTo.Models.Order>
+@{
+    int currentPage = Model.PageNumber;
+    ViewData["Title"] = "Danh sách đơn hàng - Trang " + currentPage;
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="cartHolder cart-session order-session checkout-session container pt-xl-10 pb-xl-20 py-lg-20 py-md-10 py-10">
+    @if (Model.Count > 0)
+    {
+        <div class="list-order">
+            <table class="table table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">STT</th>
+                        <th scope="col">Mã đơn hàng</th>
+                        <th scope="col">Người nhận</th>
+                        <th scope="col" class="text-center">Điện thoại</th>
+                        <th scope="col" class="text-center">Tổng thanh toán</th>
+                        <th scope="col" class="text-center">Trạng thái đơn hàng</th>
+                        <th scope="col" class="text-center">Chức năng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var i = (currentPage - 1) * Model.PageSize + 1;
+                    }
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <th scope="row">@i</th>
+                            <td>@item.Code</td>
+                            <td>@item.FullName</td>
+                            <td class="text-center">@item.Phone</td>
+                            <td class="text-center">@String.Format("{0:0,0 đ}", item.TotalPayment)</td>
+                            @if (item.OrderStatus == 1)
+                            {
+                                <td class="text-center">Chưa xác nhận</td>
+                            }
+                            else if (item.OrderStatus == 2)
+                            {
+                                <td class="text-center">Đang chờ duyệt</td>
+                            }
+                            else if (item.OrderStatus == 3)
+                            {
+                                <td class="text-center">Đang giao hàng</td>
+                            }
+                            else if (item.OrderStatus == 4)
+                            {
+                                <td class="text-center">Đã thanh toán</td>
+                            }
+                            else if (item.OrderStatus == 5)
+                            {
+                                <td class="text-center">Đã hủy</td>
+                            }
+                            <td class="text-center">
+                                <div class="order-action-box">
+                                    <a asp-action="Details" asp-route-orderId="@item.OrderId" asp-controller="Order" asp-area="Admin" class="btn btn-info">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                    <button class="btn btn-warning btn-delete-order" data-id="@item.OrderId">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                </tbody>
+            </table>
+
+            <!-- Phân trang thủ công kiểu số với Bootstrap -->
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center mt-3">
+                    @if (Model.HasPreviousPage)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="@Url.Action("Index", "Order", new { area = "Admin", page = currentPage - 1 })" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item disabled">
+                            <span class="page-link" aria-hidden="true">&laquo;</span>
+                        </li>
+                    }
+
+                    @for (int j = 1; j <= Model.PageCount; j++)
+                    {
+                        if (j == currentPage)
+                        {
+                            <li class="page-item active">
+                                <span class="page-link">@j</span>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="page-item">
+                                <a class="page-link" href="@Url.Action("Index", "Order", new { area = "Admin", page = j })">@j</a>
+                            </li>
+                        }
+                    }
+
+                    @if (Model.HasNextPage)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="@Url.Action("Index", "Order", new { area = "Admin", page = currentPage + 1 })" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item disabled">
+                            <span class="page-link" aria-hidden="true">&raquo;</span>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    }
+    else
+    {
+        <div class="container">
+            <div class="cart-empty-box row">
+                <div class="col-sm-0 col-xl-3 col-lg-3"></div>
+                <div class="col-sm-12 col-lg-6 col-xl-6">
+                    <img class="w-100" src="~/images/cart-empty.png" alt="Empty cart" />
+                    <p class="text-center cart-empty-title">Chưa có đơn hàng nào</p>
+                    <div class="text-center">
+                        <a asp-action="Index" asp-controller="Home" class="btn btn-back-home">Quay lại cửa hàng</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.btn-delete-order').click(function () {
+                var orderId = $(this).data('id');
+
+                if (confirm('Bạn có chắc muốn xoá đơn hàng này?')) {
+                    $.ajax({
+                        url: '/Admin/Order/DeletePernament',
+                        type: 'POST',
+                        data: { IdToDelete: orderId },
+                        success: function (response) {
+                            if (response.status === 0) {
+                                alert('Xoá đơn hàng thành công');
+                                location.reload();
+                            } else {
+                                alert('Xoá không thành công: ' + response.message);
+                            }
+                        },
+                        error: function () {
+                            alert('Đã xảy ra lỗi khi gửi yêu cầu xoá');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

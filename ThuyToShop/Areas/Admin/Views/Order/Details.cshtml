@@ -1,0 +1,213 @@
+﻿
+@model ThuyTo.Models.Order;
+
+@{
+    var total = 0;
+}
+
+<div class="container">
+    <div class="row mt-3">
+        <!-- Thông tin khách hàng -->
+        <div class="col-sm-12 col-md-8">
+            <div class="card">
+                <div class="card-body pt-3">
+                    <h4 class="text-center">Thông tin khách hàng</h4>
+                    <div class="customer-info row">
+                        <div class="col-sm-0 col-md-2"></div>
+                        <div class="col-sm-12 col-md-8">
+                            <div class="d-flex justify-content-between">
+                                <span>Họ và tên</span>
+                                <span>@Model.FullName</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>Email</span>
+                                <span>@Model.User?.Email</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>Số điện thoại</span>
+                                <span>@Model.Phone</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>Ngày đặt hàng</span>
+                                <span>@Model.CreatedDate</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>Địa chỉ nhận hàng</span>
+                                <span>@Model.Address</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Danh sách sản phẩm đã mua -->
+            <div class="card mt-3">
+                <div class="card-body pt-3">
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Sản phẩm</th>
+                                <th scope="col" class="text-center">Số lượng</th>
+                                <th scope="col" class="text-center">Đơn giá</th>
+                                <th scope="col" class="text-center">Thành tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.OrderDetail)
+                            {
+                                var price = item.Quantity * item.Price;
+                                total += price;
+                                <tr>
+                                    <td>@item.Product.ProductName</td>
+                                    <td class="text-center">@item.Quantity</td>
+                                    <td class="text-center">@item.Price?.ToString("#,00# VNĐ")</td>
+                                    <td class="text-center">@price.ToString("#,00# VNĐ")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- Thông tin đơn hàng & Thanh toán -->
+        <div class="col-sm-12 col-md-4">
+            <div class="card">
+                <div class="card-body pt-3">
+                    <h4 class="text-center">Thông tin đơn hàng</h4>
+                    <div class="customer-info">
+                        <div class="d-flex justify-content-between">
+                            <span>Tổng đơn hàng</span>
+                            <span>@total.ToString("#,00# đ")</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Mã giảm giá</span>
+                            <span>Không dùng</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Số tiền giảm</span>
+                            <span>0 đ</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Phí vận chuyển</span>
+                            @{
+                                var shippingFee = ViewBag.ShippingFee ?? 20000; 
+                            }
+                            <span>@String.Format("{0:0,0 đ}", ViewBag.ShippingFee)</span>
+                        </div>
+                        @{
+                            var tongThanhToan = total + Convert.ToInt32(ViewBag.ShippingFee);
+                        }
+                        <div class="d-flex justify-content-between">
+                            <span>Tổng thanh toán</span>
+                            <span>@tongThanhToan.ToString("#,00# đ")</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Trạng thái</span>
+                            @if (Model.OrderStatus == 1)
+                            {
+                                <span>Chưa xác nhận</span>
+                            }
+                            else if (Model.OrderStatus == 2)
+                            {
+                                <span>Đang chờ duyệt</span>
+                            }
+                            else if (Model.OrderStatus == 3)
+                            {
+                                <span>Đã giao hàng</span>
+                            }
+                            else if (Model.OrderStatus == 4)
+                            {
+                                <span>Đã thanh toán</span>
+                            }
+                            else if (Model.OrderStatus == 5)
+                            {
+                                <span>Đã hủy</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Phần cập nhật trạng thái đơn hàng -->
+            <div class="mt-3">
+                <div class="row">
+                    <div class="col-12">
+                        <form method="post" asp-action="UpdateOrderStatus" asp-controller="Order">
+                            <input type="hidden" name="orderId" value="@Model.OrderId" />
+                            <div class="mb-2">
+                                <label for="newStatus">Cập nhật trạng thái đơn hàng:</label>
+                                <select id="newStatus" name="newStatus" class="form-select form-control">
+                                    @if (Model.OrderStatus == 1)
+                                    {
+                                        <option value="1" selected>Chưa xác nhận</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="1">Chưa xác nhận</option>
+                                    }
+                                    @if (Model.OrderStatus == 2)
+                                    {
+                                        <option value="2" selected>Đang chờ duyệt</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="2">Đang chờ duyệt</option>
+                                    }
+                                    @if (Model.OrderStatus == 3)
+                                    {
+                                        <option value="3" selected>Đang giao hàng</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="3">Đang giao hàng</option>
+                                    }
+                                    @if (Model.OrderStatus == 4)
+                                    {
+                                        <option value="4" selected>Đã thanh toán</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="4">Đã thanh toán</option>
+                                    }
+                                    @if (Model.OrderStatus == 5)
+                                    {
+                                        <option value="5" selected>Đã hủy</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="5">Đã hủy</option>
+                                    }
+                                </select>
+                            </div>
+                            <button type="submit" class="w-100 btn btn-success">Cập nhật trạng thái</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Các nút chức năng khác -->
+            <div class="mt-3">
+                <div class="row">
+                    <div class="col-6">
+                        @if (Model.OrderStatus <= 2)
+                        {
+                            <a asp-action="ChangeOrderStatus" asp-controller="Order" asp-route-id="@Model.OrderId" asp-route-type="huy" class="w-100 btn btn-danger">Hủy đơn</a>
+                        }
+                        else
+                        {
+                            <button disabled class="w-100 btn btn-danger">Hủy đơn</button>
+                        }
+                    </div>
+                    <div class="col-6">
+                        <a asp-action="Index" asp-controller="Order" asp-area="Admin" class="w-100 btn btn-info">Quay lại</a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-3">
+                <div class="row">
+                    <div class="col-12">
+                        <a asp-action="ExportInvoice" asp-controller="Order" asp-route-orderId="@Model.OrderId" class="w-100 btn btn-primary">Xuất Hóa Đơn PDF</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

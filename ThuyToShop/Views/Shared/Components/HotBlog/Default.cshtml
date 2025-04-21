@@ -1,0 +1,49 @@
+﻿@using ThuyTo.Ultilities;
+@model IList<ThuyTo.Models.Blog>
+
+
+	@if (ViewBag.Location == "home")
+	{
+		<div class="row">
+			@foreach (var item in Model)
+			{
+				var url = "/bai-viet/" + Functions.UrlLink(item.BlogName, item.BlogId);
+				<div class="col-12 col-sm-6 col-lg-4">
+					<div class="newsPostColumn text-center px-2 pb-6 mb-6">
+						<div class="imgHolder position-relative mb-6">
+							<a href="@url">
+								<img src="~/images/@item.BlogImage" alt="image description" class="img-fluid w-100">
+								<time class="time position-absolute py-3 px-1" datetime="2019-02-03 20:00"> <strong class="fwEbold d-block mb-1">20</strong> Tháng 10</time>
+							</a>
+						</div>
+						<h2 class="headingV fwEbold mb-2 truncate-text truncate-2-line"><a href="@url">@item.BlogName</a></h2>
+						<p class="mb-0 truncate-text truncate-3-line">@item.BlogDesc</p>
+						<div class="d-flex justify-content-between mt-2 px-2">
+							<p class="mb-0">
+								<span><i class="fa fa-eye"></i></span> @item.BlogViewCount lượt xem
+							</p>
+							<a href="@url">Xem chi tiết</a>
+						</div>
+					</div>
+				</div>
+			}
+		</div>
+	}
+	else
+	{
+		@foreach (var item in Model)
+		{
+			var url = "/bai-viet/" + Functions.UrlLink(item.BlogName, item.BlogId);
+			<div class="product-item d-flex mt-3">
+				<div class="product-image" style="width: 30%">
+					<a href="@url"><img src="~/images/@item.BlogImage" style="width: 100%" /></a>
+				</div>
+				<div class="product-info" style="width: 70%">
+					<h4 class="product-name mb-0 mx-3" style="font-size: 13px"><a href="@url" class="truncate-text truncate-3-line">@item.BlogName</a></h4>
+					@*<div class="price mt-0 text-start">
+			<span class="product-new-price">@String.Format("{0:0,0 đ}", item.ProductPrice - item.ProductPrice * item.ProductDisCount / 100)</span>
+			</div>*@
+				</div>
+			</div>
+		}
+	}

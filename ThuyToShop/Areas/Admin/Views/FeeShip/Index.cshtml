@@ -1,0 +1,180 @@
+﻿@model IList<ThuyTo.Models.FeeShip>
+@{
+    ViewData["Title"] = "Quản lý phí vận chuyển";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="pagetitle">
+    <h1 class="text-center">Phí vận chuyển</h1>
+</div>
+
+<div class="feeship-session">
+    <div class="row">
+        <div class="col-sm-12 col-xl-3 col-lg-3">
+            <div class="card mt-3">
+                <div class="card-body">
+                    <div class="add-feeship-box">
+                        <form class="">
+                            <div class="form-group">
+                                <label class="form-label">Tỉnh - Thành phố</label>
+                                <select class="form-control choose" data-name="province" id="province" asp-items="@ViewBag.Provinces"></select>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label class="form-label">Quận - Huyện</label>
+                                <select class="form-control choose" data-name="district" id="districts">
+                                    <option value="0">-------Chọn quận huyện-------</option>
+                                </select>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label class="form-label">Khối - Phường - Thị xã</label>
+                                <select class="form-control" data-name="commune" id="commune">
+                                    <option value="0">---------Chọn thị xã---------</option>
+                                </select>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label class="form-label">Phí vận chuyển</label>
+                                <input class="form-control ship-price" placeholder="20.000 đ" />
+                            </div>
+                            <div class="form-group mt-5 mb-3">
+                                <input type="button" class="form-control btn-add-feeship btn btn-primary" value="Thêm mới" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-xl-9 col-lg-9">
+            <div class="card mt-3">
+                <div class="card-body">
+                    <div class="table-feeship">
+                        <table class="table table-bordered text-center">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Tỉnh - Thành phố</th>
+                                    <th>Quận - Huyện</th>
+                                    <th>Phường - Thị xã</th>
+                                    <th>Phí vận chuyển</th>
+                                    <th>Chức năng</th>
+                                </tr>
+                            </thead>
+                            <tbody class="list-feeship"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Xác nhận xóa -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Xác nhận xóa phí vận chuyển</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="IdToDelete" />
+                Bạn có chắc chắn muốn xóa mục này không?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy bỏ</button>
+                <button type="button" class="btn btn-danger" id="btnConfirmDelete">Xóa</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        function LoadFeeship() {
+            $.post("/Admin/FeeShip/LoadFeeship", {}, function (data) {
+                if (data.status == 0) {
+                    $(".list-feeship").html(data.content);
+                }
+            });
+        }
+
+        function DisplayDeleteModal(id) {
+            $("#IdToDelete").val(id);
+            $("#deleteModal").modal("show");
+        }
+
+        $(document).ready(function () {
+            LoadFeeship();
+
+            $("#btnConfirmDelete").on("click", function () {
+                var id = $("#IdToDelete").val();
+                $.post("/Admin/FeeShip/DeletePernament", { IdToDelete: id }, function (data) {
+                    if (data.status == 0) {
+                        $("#deleteModal").modal("hide");
+                        toastr.success(data.message);
+                        LoadFeeship();
+                    } else {
+                        toastr.error(data.message);
+                    }
+                });
+            });
+
+            $('.choose').on('change', function () {
+                var id = $(this).val();
+                var action = $(this).data('name');
+                var result = (action === "province") ? "districts" : (action === "district" ? "commune" : "");
+
+                $.post("/Admin/FeeShip/ChooseLocation", { id, action }, function (data) {
+                    if (data.status == 0) {
+                        $("#" + result).html(data.content);
+                    }
+                });
+            });
+
+            $(".btn-add-feeship").on("click", function () {
+                var provinceid = $('#province').val();
+                var districtsid = $('#districts').val();
+                var communeid = $('#commune').val();
+                var shipprice = $('.ship-price').val();
+
+                $.post("/Admin/FeeShip/AddFeeship", {
+                    provinceid, districtsid, communeid, shipprice
+                }, function (data) {
+                    if (data.status == 0) {
+                        toastr.success(data.message);
+                        LoadFeeship();
+                    } else {
+                        toastr.error(data.message);
+                    }
+                });
+            });
+
+            // ✅ Đã sửa phần cập nhật
+            $(document).on("change", ".shipprice-input", function () {
+                var input = $(this);
+                var newPrice = input.val().trim();
+                var id = input.data("id");
+
+                if (newPrice === "" || isNaN(newPrice)) {
+                    toastr.error("Phí vận chuyển không hợp lệ!");
+                    return;
+                }
+
+                $.post("/Admin/FeeShip/UpdateFeeship", {
+                    id: id,
+                    shipprice: newPrice
+                }, function (data) {
+                    if (data.status == 0) {
+                        toastr.success(data.message);
+                    } else {
+                        toastr.error(data.message);
+                    }
+                });
+            });
+
+            $(document).on("click", ".btn-delete-feeship", function () {
+                var id = $(this).data("id");
+                DisplayDeleteModal(id);
+            });
+        });
+    </script>
+}
+s

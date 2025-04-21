@@ -1,0 +1,116 @@
+﻿@model IEnumerable<ThuyTo.Models.Reservation>
+@{
+    ViewData["Title"] = "Quản lý đặt bàn";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Quản lý Đặt Bàn</h2>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Tên Khách Hàng</th>
+                    <th>Số Điện Thoại</th>
+                    <th>Email</th>
+                    <th>Ngày Đặt</th>
+                    <th>Số Khách</th>
+                    <th>Yêu Cầu Đặc Biệt</th>
+                    <th>Trạng Thái</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    foreach (var reservation in Model)
+                    {
+                        <tr>
+                            <td>@reservation.ReservationId</td>
+                            <td>@reservation.FullName</td>
+                            <td>@reservation.Phone</td>
+                            <td>@reservation.Email</td>
+                            <td>
+                                @reservation.ReservationDate?.ToString("dd/MM/yyyy HH:mm")
+                            </td>
+                            <td>@reservation.NumberOfGuests</td>
+                            <td>@reservation.SpecialRequest</td>
+                            <td>
+                                <select class="form-select form-select-sm status-select"
+                                        data-id="@reservation.ReservationId"
+                                        style="min-width: 150px;">
+                                    @Html.Raw($"<option value='Available' style='color: green;' {(reservation.Status == ThuyTo.Models.ReservationStatus.Available ? "selected" : "")}>Trống</option>")
+                                    @Html.Raw($"<option value='Pending' style='color: orange;' {(reservation.Status == ThuyTo.Models.ReservationStatus.Pending ? "selected" : "")}>Đang chờ</option>")
+                                    @Html.Raw($"<option value='Confirmed' style='color: blue;' {(reservation.Status == ThuyTo.Models.ReservationStatus.Confirmed ? "selected" : "")}>Xác nhận</option>")
+                                    @Html.Raw($"<option value='Cancelled' style='color: red;' {(reservation.Status == ThuyTo.Models.ReservationStatus.Cancelled ? "selected" : "")}>Hủy</option>")
+                                </select>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="text-center text-muted">Không có đặt bàn nào.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.querySelectorAll('.status-select').forEach(select => {
+            select.addEventListener('change', function () {
+                const reservationId = this.getAttribute('data-id');
+                const status = this.value;
+                var data = {
+                    reservationId :reservationId,
+                    status : status
+                }
+                console.log(data);
+                fetch('/UpdateReservationStatus', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showToast('Cập nhật trạng thái thành công!', 'success');
+                        window.location.reload();
+                    } else {
+                        showToast('Có lỗi xảy ra: ' + data.message, 'danger');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showToast('Không thể cập nhật trạng thái.', 'danger');
+                });
+            });
+        });
+
+        function showToast(message, type) {
+            const toastContainer = document.getElementById('toastContainer');
+            const toastHtml = `
+                <div class="toast align-items-center text-bg-${type} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            ${message}
+                        </div>
+                        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>`;
+            toastContainer.insertAdjacentHTML('beforeend', toastHtml);
+            const toast = new bootstrap.Toast(toastContainer.lastElementChild);
+            toast.show();
+        }
+    </script>
+}
+
+<div id="toastContainer" class="position-fixed bottom-0 end-0 p-3" style="z-index: 1055;"></div>
+

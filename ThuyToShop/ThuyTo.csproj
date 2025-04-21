@@ -1,0 +1,401 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>preview</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\Client\scss\Custom.scss" />
+    <Content Remove="wwwroot\Client\scss\ErrorStyle.scss" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AspNetCore.SassCompiler" Version="1.69.3" />
+    <PackageReference Include="AspNetCoreHero.ToastNotification" Version="1.1.0" />
+    <PackageReference Include="elFinder.NetCore" Version="1.3.6" />
+    <PackageReference Include="EntityFramework" Version="6.4.4" />
+    <PackageReference Include="Grpc.Core" Version="2.46.6" />
+    <PackageReference Include="MailKit" Version="4.11.0" />
+    <PackageReference Include="Microsoft.AspNet.SignalR.Core" Version="2.4.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.22" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.28" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.12" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.12">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.18" />
+    <PackageReference Include="MimeKit" Version="4.11.0" />
+    <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.13" />
+    <PackageReference Include="MySql.EntityFrameworkCore" Version="6.0.13" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="PagedList.Core.Mvc" Version="3.0.0" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.3" />
+    <PackageReference Include="QuestPDF" Version="2023.12.0" />
+    <PackageReference Include="SlugGenerator" Version="2.0.2" />
+    <PackageReference Include="toastr" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Migrations\" />
+    <Folder Include="wwwroot\files\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="wwwroot\Client\scss\ErrorStyle.scss" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Admin\assets\vendor\toastr\toastr.js.map" />
+    <None Include="wwwroot\Admin\assets\vendor\toastr\toastr.min.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\.gitignore" />
+    <None Include="wwwroot\Admin\lib\elFinder\Changelog" />
+    <None Include="wwwroot\Admin\lib\elFinder\files\.gitkeep" />
+    <None Include="wwwroot\Admin\lib\elFinder\files\.trash\.gitkeep" />
+    <None Include="wwwroot\Admin\lib\elFinder\img\icons-big.svg" />
+    <None Include="wwwroot\Admin\lib\elFinder\img\tui-icon-a.svg" />
+    <None Include="wwwroot\Admin\lib\elFinder\img\tui-icon-b.svg" />
+    <None Include="wwwroot\Admin\lib\elFinder\img\tui-icon-c.svg" />
+    <None Include="wwwroot\Admin\lib\elFinder\img\tui-icon-d.svg" />
+    <None Include="wwwroot\Admin\lib\elFinder\img\volume_icon_box.svg" />
+    <None Include="wwwroot\Admin\lib\elFinder\img\volume_icon_dropbox.svg" />
+    <None Include="wwwroot\Admin\lib\elFinder\img\volume_icon_ftp.svg" />
+    <None Include="wwwroot\Admin\lib\elFinder\img\volume_icon_googledrive.svg" />
+    <None Include="wwwroot\Admin\lib\elFinder\img\volume_icon_local.svg" />
+    <None Include="wwwroot\Admin\lib\elFinder\img\volume_icon_network.svg" />
+    <None Include="wwwroot\Admin\lib\elFinder\img\volume_icon_onedrive.svg" />
+    <None Include="wwwroot\Admin\lib\elFinder\img\volume_icon_sql.svg" />
+    <None Include="wwwroot\Admin\lib\elFinder\img\volume_icon_trash.svg" />
+    <None Include="wwwroot\Admin\lib\elFinder\img\volume_icon_zip.svg" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\elfinder.full.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\elfinder.min.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\extras\editors.default.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\extras\editors.default.min.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\extras\quicklook.googledocs.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\extras\quicklook.googledocs.min.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.ar.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.bg.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.ca.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.cs.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.da.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.de.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.el.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.es.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.fa.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.fallback.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.fo.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.fr.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.fr_CA.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.he.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.hr.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.hu.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.id.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.it.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.ja.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.ko.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.LANG.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.nl.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.no.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.pl.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.pt_BR.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.ro.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.ru.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.si.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.sk.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.sl.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.sr.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.sv.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.tr.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.ug_CN.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.uk.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.vi.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.zh_CN.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\elfinder.zh_TW.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\help\cs.html.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\help\de.html.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\help\en.html.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\help\es.html.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\help\ja.html.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\help\ko.html.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\help\pl.html.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\help\ru.html.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\help\sk.html.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\i18n\help\tr.html.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\proxy\elFinderSupportVer1.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\worker\calcfilehash.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\worker\quicklook.tiff.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\js\worker\quicklook.unzip.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\LICENSE.md" />
+    <None Include="wwwroot\Admin\lib\elFinder\main.default.js" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\.tmp\.htaccess" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\autoload.php" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\connector.maximal.php-dist" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\connector.minimal.php-dist" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\editors\editor.php" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\editors\OnlineConvert\editor.php" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\editors\ZipArchive\editor.php" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\editors\ZohoOffice\editor.php" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\elFinder.class.php" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\elFinderConnector.class.php" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\elFinderFlysystemGoogleDriveNetmount.php" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\elFinderPlugin.php" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\elFinderSession.php" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\elFinderSessionInterface.php" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\elFinderVolumeBox.class.php" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\elFinderVolumeDriver.class.php" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\elFinderVolumeDropbox.class.php" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\elFinderVolumeDropbox2.class.php" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\elFinderVolumeFTP.class.php" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\elFinderVolumeGoogleDrive.class.php" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\elFinderVolumeGroup.class.php" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\elFinderVolumeLocalFileSystem.class.php" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\elFinderVolumeMySQL.class.php" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\elFinderVolumeOneDrive.class.php" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\elFinderVolumeSFTPphpseclib.class.php" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\elFinderVolumeTrash.class.php" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\elFinderVolumeTrashMySQL.class.php" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\libs\GdBmp.php" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\mime.types" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\MySQLStorage.sql" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\plugins\AutoResize\plugin.php" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\plugins\AutoRotate\plugin.php" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\plugins\Normalizer\plugin.php" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\plugins\Sanitizer\plugin.php" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\plugins\Watermark\plugin.php" />
+    <None Include="wwwroot\Admin\lib\elFinder\php\plugins\WinRemoveTailDots\plugin.php" />
+    <None Include="wwwroot\Admin\lib\elFinder\README.md" />
+    <None Include="wwwroot\Admin\lib\jqueryui\external\jquery\jquery.js" />
+    <None Include="wwwroot\Admin\lib\jqueryui\jquery-ui.js" />
+    <None Include="wwwroot\Admin\lib\jqueryui\jquery-ui.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\font\summernote.woff2" />
+    <None Include="wwwroot\Admin\lib\snote\jquery.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-ar-AR.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-ar-AR.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-az-AZ.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-az-AZ.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-bg-BG.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-bg-BG.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-ca-ES.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-ca-ES.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-cs-CZ.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-cs-CZ.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-da-DK.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-da-DK.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-de-DE.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-de-DE.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-el-GR.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-el-GR.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-es-ES.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-es-ES.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-es-EU.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-es-EU.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-fa-IR.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-fa-IR.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-fi-FI.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-fi-FI.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-fr-FR.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-fr-FR.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-gl-ES.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-gl-ES.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-he-IL.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-he-IL.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-hr-HR.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-hr-HR.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-hu-HU.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-hu-HU.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-id-ID.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-id-ID.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-it-IT.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-it-IT.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-ja-JP.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-ja-JP.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-ko-KR.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-ko-KR.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-lt-LT.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-lt-LT.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-lt-LV.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-lt-LV.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-mn-MN.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-mn-MN.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-nb-NO.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-nb-NO.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-nl-NL.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-nl-NL.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-pl-PL.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-pl-PL.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-pt-BR.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-pt-BR.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-pt-PT.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-pt-PT.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-ro-RO.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-ro-RO.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-ru-RU.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-ru-RU.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-sk-SK.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-sk-SK.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-sl-SI.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-sl-SI.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-sr-RS-Latin.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-sr-RS-Latin.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-sr-RS.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-sr-RS.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-sv-SE.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-sv-SE.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-ta-IN.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-ta-IN.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-th-TH.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-th-TH.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-tr-TR.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-tr-TR.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-uk-UA.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-uk-UA.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-uz-UZ.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-uz-UZ.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-vi-VN.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-vi-VN.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-zh-CN.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-zh-CN.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-zh-TW.js" />
+    <None Include="wwwroot\Admin\lib\snote\lang\summernote-zh-TW.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\plugin\databasic\summernote-ext-databasic.js" />
+    <None Include="wwwroot\Admin\lib\snote\plugin\hello\summernote-ext-hello.js" />
+    <None Include="wwwroot\Admin\lib\snote\plugin\specialchars\summernote-ext-specialchars.js" />
+    <None Include="wwwroot\Admin\lib\snote\summernote-bs4.js" />
+    <None Include="wwwroot\Admin\lib\snote\summernote-bs4.js.map" />
+    <None Include="wwwroot\Admin\lib\snote\summernote-bs4.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\summernote-bs4.min.js.map" />
+    <None Include="wwwroot\Admin\lib\snote\summernote-lite.js" />
+    <None Include="wwwroot\Admin\lib\snote\summernote-lite.js.map" />
+    <None Include="wwwroot\Admin\lib\snote\summernote-lite.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\summernote-lite.min.js.map" />
+    <None Include="wwwroot\Admin\lib\snote\summernote.js" />
+    <None Include="wwwroot\Admin\lib\snote\summernote.js.map" />
+    <None Include="wwwroot\Admin\lib\snote\summernote.min.js" />
+    <None Include="wwwroot\Admin\lib\snote\summernote.min.js.map" />
+    <None Include="wwwroot\Client\scss\Custom.scss" />
+    <None Include="wwwroot\Client\scss\ErrorStyle.scss" />
+    <None Include="wwwroot\EmailTemplate\ConfirmOrder.html" />
+    <None Include="wwwroot\Fonts\Roboto-Regular.ttf" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\.gitattributes" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\.gitignore" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\.travis.yml" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\CONTRIBUTING.md" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\dist\LICENSE" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\dist\owl.carousel.js" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\dist\owl.carousel.min.js" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\dist\README.md" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs\assets\js\app.js" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs\assets\js\foundation.min.js" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs\assets\owlcarousel\owl.carousel.js" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs\assets\owlcarousel\owl.carousel.min.js" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs\assets\owlcarousel\README.md" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs\assets\vendors\foundation.min.js" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs\assets\vendors\highlight.js" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs\assets\vendors\jquery.min.js" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs\assets\vendors\jquery.min.map" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs\assets\vendors\jquery.mousewheel.min.js" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\assets\js\app.js" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\assets\js\foundation.min.js" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\assets\scss\custom.scss" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\assets\scss\demos.scss" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\assets\scss\docs.scss" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\assets\scss\docs.theme.scss" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\assets\scss\highlight.scss" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\assets\scss\_settings.scss" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\assets\vendors\foundation.min.js" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\assets\vendors\highlight.js" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\assets\vendors\jquery.min.js" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\assets\vendors\jquery.min.map" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\assets\vendors\jquery.mousewheel.min.js" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\helpers\modulo.js" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\helpers\test.js" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\layouts\demos.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\layouts\docs.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\layouts\home.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\pages\demos\animate.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\pages\demos\autoheight.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\pages\demos\autoplay.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\pages\demos\autowidth.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\pages\demos\basic.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\pages\demos\center.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\pages\demos\demos.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\pages\demos\events.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\pages\demos\lazyLoad.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\pages\demos\merge.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\pages\demos\mousewheel.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\pages\demos\responsive.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\pages\demos\rtl.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\pages\demos\stagepadding.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\pages\demos\test.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\pages\demos\urlhashnav.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\pages\demos\video.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\pages\docs\api-classes.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\pages\docs\api-events.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\pages\docs\api-options.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\pages\docs\dev-buildin-plugins.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\pages\docs\dev-external.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\pages\docs\dev-plugin-api.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\pages\docs\dev-styles.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\pages\docs\started-faq.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\pages\docs\started-installation.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\pages\docs\started-welcome.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\pages\docs\support-changelog.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\pages\docs\support-contact.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\pages\docs\support-contributing.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\pages\index.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\partials\footer.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\partials\head.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\partials\header.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\partials\home-carousel.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\partials\home-features.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\partials\home-hero.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\partials\home-teaser-text.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\partials\javascripts.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\partials\releated-docs.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\partials\sidenav-docs.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\partials\title.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\docs_src\templates\partials\vendors.hbs" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\Gruntfile.js" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\ISSUE_TEMPLATE.md" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\LICENSE" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\README.md" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\ROADMAP.md" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\src\js\.jscsrc" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\src\js\.jshintrc" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\src\js\owl.animate.js" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\src\js\owl.autoheight.js" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\src\js\owl.autoplay.js" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\src\js\owl.autorefresh.js" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\src\js\owl.carousel.js" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\src\js\owl.hash.js" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\src\js\owl.lazyload.js" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\src\js\owl.navigation.js" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\src\js\owl.support.js" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\src\js\owl.support.modernizr.js" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\src\js\owl.video.js" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\src\scss\owl.carousel.scss" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\src\scss\owl.theme.default.scss" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\src\scss\owl.theme.green.scss" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\src\scss\_animate.scss" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\src\scss\_autoheight.scss" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\src\scss\_core.scss" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\src\scss\_lazyload.scss" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\src\scss\_theme.default.scss" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\src\scss\_theme.green.scss" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\src\scss\_theme.scss" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\src\scss\_video.scss" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\test\unit\autoplay.js" />
+    <None Include="wwwroot\OwlCarousel2-2.3.4\test\unit\core.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="wwwroot\Client\scss\Custom.scss" />
+  </ItemGroup>
+
+</Project>

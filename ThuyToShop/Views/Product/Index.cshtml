@@ -1,0 +1,159 @@
+﻿@using ThuyTo.Ultilities
+@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<ThuyTo.Models.Product>
+
+@{
+    ViewData["Title"] = "Tất cả sản phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="left-sidebar-layout detail-section container-section">
+    <div class="container">
+        <div class="content-box">
+            <div class="row">
+                <div class="col-xl-3 col-lg-3 col-md-12">
+                    <partial name="~/Views/Shared/LeftSidebarProductPartialView.cshtml" />
+                </div>
+                <div class="col-xl-9 col-lg-9 col-md-12">
+                    <div class="main-content-box">
+                        <div class="breadcrumb-header">
+                            <a href="/">Trang chủ</a>
+                            <span>></span>
+                            <a href="/san-pham">Sản phẩm</a>
+                        </div>
+                    </div>
+
+                    <!-- Thêm form tìm kiếm -->
+                    <div class="search-box mb-4">
+                        <form method="get" asp-action="Index" asp-controller="Product">
+                            <div class="input-group">
+                                <input type="text" class="form-control"
+                                       name="searchTerm"
+                                       placeholder="Nhập tên sản phẩm cần tìm..."
+                                       value="@Context.Request.Query["searchTerm"]" />
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="submit">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <section class="featureSec main-content-box container overflow-hidden mt-3 pt-xl-11 pb-xl-18 pt-lg-10 pb-lg-20 pt-md-8 pb-md-16 pt-5 pb-5">
+                        <div class="row">
+                            <!-- Tiêu đề -->
+                            <header class="col-12 mainHeader mb-4 text-center">
+                                <h1 class="headingIV playfair fwEblod mb-4">
+                                    @if (!string.IsNullOrEmpty(Context.Request.Query["searchTerm"]))
+                                    {
+                                        <text>Kết quả tìm kiếm: "@Context.Request.Query["searchTerm"]"</text>
+                                    }
+                                    else
+                                    {
+                                        <text>Tất cả sản phẩm</text>
+                                    }
+                                </h1>
+                                <span class="headerBorder d-block mb-5">
+                                    <img src="/Client/images/hbdr.png" alt="Header Border" class="img-fluid img-bdr">
+                                </span>
+                            </header>
+                        </div>
+
+                        <div class="row">
+                            @if (Model != null && Model.Any())
+                            {
+                                foreach (var item in Model)
+                                {
+                                    var url = Functions.UrlLink(item.ProductName, item.ProductId);
+                                    <div class="col-12 col-sm-12 col-lg-4 featureCol position-relative mb-6">
+                                        <div class="bd2">
+                                            <div class="imgHolder position-relative w-100 overflow-hidden">
+                                                <img src="~/images/@item.ProductImage" alt="@item.ProductName" class="img-product w-100" />
+                                                <ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
+                                                    <li class="mr-2 overflow-hidden">
+                                                        <a href="javascript:void(0);" data-productid="@item.ProductId" class="icon-heart favourite-btn d-block"></a>
+                                                    </li>
+                                                    <li class="mr-2 overflow-hidden">
+                                                        <a href="javascript:void(0);" data-productid="@item.ProductId" class="addcart-btn icon-cart d-block"></a>
+                                                    </li>
+                                                    <li class="mr-2 overflow-hidden">
+                                                        <a href="/san-pham/@url" class="icon-eye d-block"></a>
+                                                    </li>
+                                                    <li class="overflow-hidden">
+                                                        <a href="javascript:void(0);" class="icon-arrow d-block"></a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="text-center py-xl-5 py-sm-4 py-2 px-xl-2 px-1">
+                                                <span class="title d-block mb-2">
+                                                    <a href="/san-pham/@url">@item.ProductName</a>
+                                                </span>
+                                                <span class="price d-block fwEbold mb-1">
+                                                    @String.Format("{0:0,0 đ}", item.ProductPrice)
+                                                </span>
+                                                @if (item.IsBestSeller == true)
+                                                {
+                                                    <span class="hotOffer fwEbold text-uppercase text-white position-absolute d-block">Hot</span>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="col-12 text-center">
+                                    @if (!string.IsNullOrEmpty(Context.Request.Query["searchTerm"]))
+                                    {
+                                        <div class="alert alert-info">Không tìm thấy sản phẩm phù hợp với từ khóa "@Context.Request.Query["searchTerm"]"</div>
+                                    }
+                                    else
+                                    {
+                                        <p>Không có sản phẩm nào được hiển thị.</p>
+                                    }
+                                </div>
+                            }
+                        </div>
+
+                        <!-- Phân trang -->
+                        @if (Model != null && Model.PageCount > 1)
+                        {
+                            <div class="text-center mt-3 align-items-center">
+                                <pager class="pager-container"
+                                       list="@Model"
+                                       options="@PagedListRenderOptions.Bootstrap4Full"
+                                       asp-action="Index"
+                                       asp-route-searchTerm="@Context.Request.Query["searchTerm"]" />
+                            </div>
+                        }
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .search-box {
+        padding: 0 15px;
+    }
+
+        .search-box .form-control {
+            border-radius: 4px 0 0 4px;
+            height: 45px;
+        }
+
+        .search-box .btn {
+            border-radius: 0 4px 4px 0;
+            height: 45px;
+        }
+
+    .alert-info {
+        background-color: #d1ecf1;
+        border-color: #bee5eb;
+        color: #0c5460;
+        padding: 15px;
+        border-radius: 4px;
+    }
+</style>

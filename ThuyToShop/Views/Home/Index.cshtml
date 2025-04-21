@@ -1,0 +1,253 @@
+﻿@using ThuyTo.Ultilities;
+@{
+    ViewData["Title"] = "Trang chủ";
+}
+
+<!-- bannerBlockHolder -->
+<section class="bannerBlockHolder position-relative">
+	<div class="slick-fade">
+		<div class=""><img class="w-100" src="~/images/Banner/bg-banner-1.png" /></div>
+		<div class=""><img class="w-100" src="~/images/Banner/bg-banner-2.jpg" /></div>
+		<div class=""><img class="w-100" src="~/images/Banner/bg-banner-3.png" /></div>
+		<div class=""><img class="w-100" src="~/images/Banner/bg-banner-4.png" /></div>
+		<div class=""><img class="w-100" src="~/images/Banner/bg-banner-5.png" /></div>
+		<div class=""><img class="w-100" src="~/images/Banner/bg-banner-6.png" /></div>
+	</div>
+	<div class="slickNavigatorsWrap">
+		<a href="#" class="slick-prev"><i class="icon-leftarrow"></i></a>
+		<a href="#" class="slick-next"><i class="icon-rightarrow"></i></a>
+	</div>
+</section>
+<!-- contactListBlock -->
+
+<div class="container pt-xl-11 pb-xl-12 pt-lg-10 pb-lg-10 pt-md-8 pb-md-8 pt-5 pb-5">
+	<div class="row">
+		<div class="col-12">
+			<!-- quotationBlock -->
+			<blockquote class="quotationBlock text-center d-block m-0">
+				<q class="d-block playfair mb-7">Chào mừng bạn đến với Thủy Tồ House – thiên đường ẩm thực dành cho những tín đồ yêu thích món ăn ngon, độc đáo và chất lượng! Chúng tôi tự hào mang đến một thực đơn đa dạng, từ các món ăn truyền thống đậm đà hương vị Việt Nam đến những món hiện đại hấp dẫn, được chế biến từ nguồn nguyên liệu tươi ngon nhất.</q>
+				<cite class="d-block">
+					<img src="~/Client/images/signature.png" alt="signature" class="img-fluid mb-6">
+					<span class="d-flex flex-nowrap align-items-center justify-content-center">
+						<strong class="fwEbold mr-1">Bùi Thủy Tồ</strong>
+						<span class="text-uppercase fwEbold pt-1">- CEO</span>
+					</span>
+				</cite>
+			</blockquote>
+		</div>
+	</div>
+</div>
+<!-- featureSec -->
+@*@await Component.InvokeAsync("BestSellerProduct");*@
+<section class="featureSec container overflow-hidden pt-xl-12 pb-xl-9 pt-lg-10 pb-lg-4 pt-md-8 pb-md-2 pt-5">
+	<div class="row">
+		<!-- mainHeader -->
+		<header class="col-12 mainHeader mb-4 text-center">
+			<h1 class="headingIV playfair fwEblod mb-4">Sản phẩm có khuyến mãi</h1>
+			<span class="headerBorder d-block mb-5"><img src="~/Client/images/hbdr.png" alt="Header Border" class="img-fluid img-bdr "></span>
+			<p>Mua ngay trong hôm nay để nhận được ưu đãi của chúng tôi </p>
+		</header>
+	</div>
+	<div id="BestSellerCarousel" class="row owl-carousel owl-nav-custom owl-theme my-3">
+		@foreach (var item in ViewBag.ListBestSellerProduct)
+		{
+			var url = Functions.UrlLink(item.ProductName, item.ProductId);
+			<div class="col-12 col-sm-12 col-lg-12 featureCol w-100 position-relative mb-6">
+				<div class="border">
+					<div class="imgHolder position-relative w-100 overflow-hidden">
+						<img src="~/images/@item.ProductImage" alt="image description" class="img-fluid w-100" width="100">
+						<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
+							<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" data-productid="@item.ProductId" class="icon-heart favourite-btn d-block"></a></li>
+							<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" data-productid="@item.ProductId" class="addcart-btn icon-cart d-block"></a></li>
+							<li class="mr-2 overflow-hidden"><a href="/san-pham/@url" class="icon-eye d-block"></a></li>
+							<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>
+						</ul>
+					</div>
+					<div class="text-center py-xl-5 py-sm-4 py-2 px-xl-2 px-1">
+						<span class="title d-block mb-2 truncate-text truncate-2-line"><a href="/san-pham/@url">@item.ProductName</a></span>
+						<span class="price d-block fwEbold"><del>@String.Format("{0:0,0 đ}", item.ProductPrice) </del> @String.Format("{0:0,0 đ}", item.ProductPrice - item.ProductPrice * item.ProductDisCount / 100)</span>
+						<span class="hotOffer green fwEbold text-uppercase text-white position-absolute d-block">Sale</span>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+</section>
+<div class="contactListBlock container overflow-hidden py-5">
+	<div class="row">
+		<div class="col-12 col-sm-6 col-lg-3 mb-4 mb-lg-0">
+			<!-- contactListColumn -->
+			<div class="contactListColumn border bg-lightGray overflow-hidden py-xl-5 py-md-3 py-2 px-xl-6 px-md-3 px-3 d-flex">
+				<span class="icon icon-van"></span>
+				<div class="alignLeft pl-2">
+					<strong class="headingV fwEbold d-block mb-1">Hỗ trợ vận chuyển</strong>
+					<p class="m-0">Đơn hàng trên 250k </p>
+				</div>
+			</div>
+		</div>
+		<div class="col-12 col-sm-6 col-lg-3 mb-4 mb-lg-0">
+			<!-- contactListColumn -->
+			<div class="contactListColumn border bg-lightGray overflow-hidden py-xl-5 py-md-3 py-2 px-xl-6 px-md-3 px-3 d-flex">
+				<span class="icon icon-gift"></span>
+				<div class="alignLeft pl-2">
+					<strong class="headingV fwEbold d-block mb-1">Quà tặng hấp dẫn</strong>
+					<p class="m-0">Hàng ngàn quà tặng</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-12 col-sm-6 col-lg-3 mb-4 mb-lg-0">
+			<!-- contactListColumn -->
+			<div class="contactListColumn border bg-lightGray overflow-hidden py-xl-5 py-md-3 py-2 px-xl-4 px-md-2 px-3 d-flex">
+				<span class="icon icon-recycle"></span>
+				<div class="alignLeft pl-2">
+					<strong class="headingV fwEbold d-block mb-1">Hỗ trợ</strong>
+					<p class="m-0">Nhanh chóng</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-12 col-sm-6 col-lg-3 mb-4 mb-lg-0">
+			<!-- contactListColumn -->
+			<div class="contactListColumn border bg-lightGray overflow-hidden py-xl-5 py-md-3 py-2 px-xl-6 px-md-3 px-3 d-flex">
+				<span class="icon icon-call"></span>
+				<div class="alignLeft pl-2">
+					<strong class="headingV fwEbold d-block mb-1">Hỗ trợ 24 / 7</strong>
+					<p class="m-0">Hotline: 0867168268</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- categorySecBlock -->
+@*@await Component.InvokeAsync("NewProduct")*@
+
+<section class="featureSec container overflow-hidden pt-xl-11 pb-xl-18 pt-lg-10 pb-lg-20 pt-md-8 pb-md-16 pt-5 pb-5">
+	<div class="row">
+		<!-- mainHeader -->
+		<header class="col-12 mainHeader mb-4 text-center">
+			<h1 class="headingIV playfair fwEblod mb-4">Sản phẩm nổi bật</h1>
+			<span class="headerBorder d-block mb-5"><img src="~/Client/images/hbdr.png" alt="Header Border" class="img-fluid img-bdr"></span>
+			<p>Những món ăn được khách hàng yêu thích nhất của chúng tôi </p>
+		</header>
+	</div>
+	<div class="row">
+		@foreach (var item in ViewBag.ListNewProduct)
+		{
+			var url = Functions.UrlLink(item.ProductName, item.ProductId);
+				<div class="col-12 col-sm-6 col-lg-3 featureCol position-relative mb-6 d-flex">
+					<div class="bd2">
+						<div class="imgHolder position-relative w-100 overflow-hidden">
+							<img src="~/images/@item.ProductImage" alt="image description" class="img-product w-100">
+							<ul class="list-unstyled postHoverLinskList d-flex justify-content-center m-0">
+							<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" data-productid="@item.ProductId" class="icon-heart favourite-btn d-block"></a></li>
+								<li class="mr-2 overflow-hidden"><a href="javascript:void(0);" data-productid="@item.ProductId" class="addcart-btn icon-cart d-block"></a></li>
+								<li class="mr-2 overflow-hidden"><a href="/san-pham/@url" class="icon-eye d-block"></a></li>
+								<li class="overflow-hidden"><a href="javascript:void(0);" class="icon-arrow d-block"></a></li>
+							</ul>
+						</div>
+						<div class="text-center py-xl-5 py-sm-4 py-2 px-xl-2 px-1 mt-auto">
+							<span class="title d-block mb-2"><a href="/san-pham/@url">@item.ProductName</a></span>
+							<span class="price d-block fwEbold mb-1">@String.Format("{0:0,0 đ}", item.ProductPrice) </span>
+							<span class="hotOffer fwEbold text-uppercase text-white position-absolute d-block">Hot</span>
+						</div>
+					</div>
+				</div>
+		}
+	</div>
+</section>
+
+<!-- featureSec -->
+<section class="feedback-container white-bg container-section" style="background-image: url('/images/feedback-banner.png');">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="feedback-box py-3">
+			<div class="row mt-3">
+				<!-- mainHeader -->
+				<header class="col-12 mainHeader mb-4 text-center">
+					<h1 class="headingIV playfair fwEblod mb-4 text-white">Phản hồi từ khách hàng</h1>
+					<span class="headerBorder d-block mb-5"><img src="/Client/images/hbdr.png" alt="Header Border" class="img-fluid img-bdr"></span>
+					<p class="text-white">Khách hàng đã nói gì về chúng tôi</p>
+				</header>
+			</div>
+
+			<div id="myCarousel" class="row owl-carousel owl-theme my-3 feedback-list">
+				<div class="feedback-item">
+					<div class="icon d-flex align-items-center justify-content-center">
+						<span class="fa fa-quote-left"></span>
+					</div>
+					<div class="feedback-user">
+						<img class="feedback-user-img" src="~/images/Users/user-1.jpg" />
+						<div class="feedback-user-info">
+							<h4 class="feedback-user-name">Bạch Cảnh Chuối</h4>
+							<span class="feedback-user-title">Khách hàng sộp</span>
+						</div>
+					</div>
+					<div class="feedback-content">
+						<p class="mb-4">
+							"Lẩu ở đây thật sự ngon, nước dùng đậm đà và nguyên liệu tươi ngon. Rất đáng để thử!" hoặc "Thịt và hải sản rất tươi, đồ nhúng đa dạng. Nước lẩu đặc biệt hấp dẫn, ăn mãi không chán."
+						</p>
+					</div>
+				</div>
+				<div class="feedback-item">
+					<div class="icon d-flex align-items-center justify-content-center">
+						<span class="fa fa-quote-left"></span>
+					</div>
+					<div class="feedback-user">
+						<img class="feedback-user-img" src="~/images/Users/user-2.jpg" />
+						<div class="feedback-user-info">
+							<h4 class="feedback-user-name">Lò thị Tèo</h4>
+							<span class="feedback-user-title">Khách hàng sộp</span>
+						</div>
+					</div>
+					<div class="feedback-content">
+						<p class="mb-4">
+							"Thức ăn ở đây thật sự tuyệt vời! Món nào cũng được chế biến tinh tế, hương vị đậm đà và nguyên liệu rất tươi ngon."
+                            "Thực đơn đa dạng, các món ăn vừa miệng, trình bày đẹp mắt. Rất đáng để trải nghiệm."
+						</p>
+					</div>
+				</div>
+				<div class="feedback-item">
+					<div class="icon d-flex align-items-center justify-content-center">
+						<span class="fa fa-quote-left"></span>
+					</div>
+					<div class="feedback-user">
+						<img class="feedback-user-img" src="~/images/Users/user-3.png" />
+						<div class="feedback-user-info">
+							<h4 class="feedback-user-name">Ẩn danh</h4>
+							<span class="feedback-user-title">Khách hàng</span>
+						</div>
+					</div>
+					<div class="feedback-content">
+						<p class="mb-4">
+							Dịch vụ:
+                            "Nhân viên phục vụ chu đáo, thân thiện và chuyên nghiệp. Mình cảm thấy rất được chào đón."
+                            Tổng quan:
+                            "Nhà hàng kết hợp hoàn hảo giữa chất lượng món ăn, không gian đẹp và dịch vụ tốt. Chắc chắn sẽ quay lại lần sau!"
+						</p>
+					</div>
+				</div>
+				<div class="feedback-item">
+					<div class="icon d-flex align-items-center justify-content-center">
+						<span class="fa fa-quote-left"></span>
+					</div>
+					<div class="feedback-user">
+						<img class="feedback-user-img" src="~/images/Users/user-4.jpg" />
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- latestSec -->
+<section class="latestSec container overflow-hidden pt-xl-23 pb-xl-17 pt-lg-20 pb-lg-4 pt-md-16 pb-md-2 pt-10">
+	<div class="row">
+		<!-- mainHeader -->
+		<header class="col-12 mainHeader mb-4 text-center">
+			<h1 class="headingIV playfair fwEblod mb-4">Bài viết nổi bật</h1>
+			<span class="headerBorder d-block mb-5"><img src="~/Client/images/hbdr.png" alt="Header Border" class="img-fluid img-bdr"></span>
+			<p>Những bài viết chia sẻ kiến thức nấu các món ăn ngon hằng ngày </p>
+		</header>
+	</div>
+
+	@await Component.InvokeAsync("HotBlog")
+</section>
+

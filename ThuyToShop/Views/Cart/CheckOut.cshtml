@@ -1,0 +1,372 @@
+@using ThuyTo.Ultilities;
+@using ThuyTo.Models;
+@model Order;
+@{
+	ViewData["Title"] = "Cart";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="introBannerHolder d-flex justify-content-center w-100 bgCover" style="background-image: url('/images/banner-2018-thanh-toan.jpg');">
+	<div class="banner-overlay">
+		<div class="row">
+			<div class="col-12 pt-lg-23 pt-md-15 pt-sm-10 pt-6 text-center">
+				<h1 class="headingIV fwEbold playfair mb-4">Thanh toán đơn hàng</h1>
+			</div>
+		</div>
+	</div>
+</section>
+
+<div class="cartHolder cart-session checkout-session container pt-xl-10 pb-xl-20 py-lg-20 py-md-10 py-10">
+	@if (ViewBag.ListCart.Count > 0)
+	{
+		<div class="row">
+			<div class="col-sm-12 col-lg-8 col-xl-8">
+				<div class="cart-right-box">
+					<h5 class="cart-rightbox-header checkout-title text-center">Đơn hàng của bạn</h5>
+					<div class="list-product-checkout">
+						<div class="row">
+							<div class="col-6">
+								<span class="checkout-title">Sản phẩm</span>
+							</div>
+							<div class="col-2 text-center checkout-title">
+								<span class="">SL</span>
+							</div>
+							<div class="col-4 text-end checkout-title">
+								<span class="product-price">Thành tiền</span>
+							</div>
+						</div>
+						@{
+							var i = 1;
+							decimal total = 0;
+						}
+						@foreach (var item in ViewBag.ListCart)
+						{
+							total += (item.product.ProductPrice - item.product.ProductPrice * item.product.ProductDisCount / 100) * item.quantity;
+							<div class="row align-items-center">
+								<div class="col-6">
+									<span>@(i++) - @item.product.ProductName</span>
+								</div>
+								<div class="col-2 text-center">
+									<span>x @item.quantity</span>
+								</div>
+								<div class="col-4 text-end">
+									<span class="checkout-title product-price">@String.Format("{0:0,00 đ}", (item.product.ProductPrice - item.product.ProductPrice * item.product.ProductDisCount / 100) * item.quantity)</span>
+								</div>
+							</div>
+						}
+					</div>
+					<div class="d-flex align-items-center justify-content-between title" style="border:none">
+						<span class="checkout-title">Tổng</span>
+						<span class="cart-price total-checkout">@String.Format("{0:0,00 đ}",total)</span>
+					</div>
+				</div>
+
+				<div class="cart-left-box mt-3">
+					<h5 class="cart-rightbox-header checkout-title text-center">Thông tin nhận hàng</h5>
+					<div class="customer-infomation-box">
+						<div class="row customer-infomation-item">
+							<div class="col-3"><span>Họ và tên</span></div>
+							<div class="col-9"><span>: @Model.FullName</span></div>
+						</div>
+						<div class="row customer-infomation-item">
+							<div class="col-3"><span>Điện thoại</span></div>
+							<div class="col-9"><span>: @Model.Phone</span></div>
+						</div>
+						<div class="row customer-infomation-item">
+							<div class="col-3"><span>Tỉnh - thành phố</span></div>
+							<div class="col-9"><span>: @ViewBag.ProvinceName</span></div>
+						</div>
+						<div class="row customer-infomation-item">
+							<div class="col-3"><span>Quận - Huyện</span></div>
+							<div class="col-9"><span>: @ViewBag.DistrictName</span></div>
+						</div>
+						<div class="row customer-infomation-item">
+							<div class="col-3"><span>Thị xã</span></div>
+							<div class="col-9"><span>: @ViewBag.CommuneName</span></div>
+						</div>
+						<div class="row customer-infomation-item">
+							<div class="col-3"><span>Địa chỉ</span></div>
+							<div class="col-9"><span>: @Model.Address</span></div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="col-sm-12 col-lg-4 col-xl-4">
+				<div class="cart-right-box">
+					<h5 class="cart-rightbox-header checkout-title text-center">Đơn hàng của bạn</h5>
+					<div class="list-product-checkout">
+						<div class="row align-items-center">
+							<div class="col-6">
+								<span>Mã đơn hàng</span>
+							</div>
+							<div class="col-6 text-end">
+								<span class="checkout-title product-price">@Model.Code</span>
+							</div>
+						</div>
+						<div class="row align-items-center">
+							<div class="col-6">
+								<span>Tổng đơn hàng</span>
+							</div>
+							<div class="col-6 text-end">
+								<span class="checkout-title product-price">@String.Format("{0:0,00 đ}",total)</span>
+							</div>
+						</div>
+						<div class="row align-items-center">
+							<div class="col-6">
+								<span>Voucher giảm giá</span>
+							</div>
+							<div class="col-6 text-end">
+								<span class="checkout-title product-price">Không</span>
+							</div>
+						</div>
+						<div class="row align-items-center">
+							<div class="col-6">
+								<span>Số tiền giảm</span>
+							</div>
+							<div class="col-6 text-end">
+								<span class="checkout-title product-price">@String.Format("{0:0,00 đ}",0)</span>
+							</div>
+						</div>
+						<div class="row align-items-center">
+							<div class="col-6">
+								<span>Phí vận chuyển</span>
+							</div>
+							<div class="col-6 text-end">
+								<span class="checkout-title product-price">@String.Format("{0:0,00 đ}",ViewBag.ShipPrice)</span>
+							</div>
+						</div>
+						<div class="row align-items-center">
+							<div class="col-6">
+								<span>Tổng đơn hàng</span>
+							</div>
+							<div class="col-6 text-end">
+								<span class="checkout-title product-price">@String.Format("{0:0,00 đ}",total + ViewBag.ShipPrice)</span>
+							</div>
+						</div>
+					</div>
+					<h5 class="cart-rightbox-header checkout-title mt-5 text-center">Mã giảm giá</h5>
+					<div class="list-product-checkout">
+						<div class="row ">
+							<div class="col-6">
+								<div class="form-group mb-0">
+									<input class="form-control" plareholder="Nhập mã" />
+								</div>
+							</div>
+							<div class="col-6">
+								<div class="form-group mb-0">
+									<button class="btn btn-voucher">Áp dụng</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<form method="post" asp-action="ConfirmCheckout" asp-controller="Cart">
+						<input hidden asp-for="@Model.Code" />
+						<input hidden asp-for="@Model.UserId" />
+						<input hidden asp-for="@Model.FullName" />
+						<input hidden asp-for="@Model.Phone" />
+						<input hidden asp-for="@Model.Address" />
+						<input hidden value="@ViewBag.ProvinceName" name="province" />
+						<input hidden value="@ViewBag.DistrictName" name="district" />
+						<input hidden value="@ViewBag.CommuneName" name="commune" />
+						<input hidden asp-for="@Model.TotalAmount" value="@total" />
+						<input hidden asp-for="@Model.TotalPayment" value="@(total + ViewBag.ShipPrice)" />
+						<input hidden asp-for="@Model.CreatedBy" />
+						<input hidden asp-for="@Model.CreatedDate" />
+						<input hidden asp-for="@Model.ModifiedBy" />
+						<input hidden asp-for="@Model.ModifiedDate" />
+						<input hidden asp-for="@Model.FeeShipId" />
+						<input hidden asp-for="@Model.OrderStatus" value="1" />
+						<input type="hidden" name="Name" value="@Model.FullName" />
+						<input type="hidden" name="Amount" value="@(total + ViewBag.ShipPrice)" />
+						<input type="hidden" name="OrderDescription" value="Thanh toán đơn hàng @Model.Code" />
+						<input type="hidden" name="OrderType" value="other" />
+						<div class="payment-method mt-4">
+							<h5 class="cart-rightbox-header checkout-title text-center">Phương thức thanh toán</h5>
+							<div class="payment-option">
+								<input type="radio" name="paymentMethod" id="codPayment" value="cod" checked>
+								<label for="codPayment" class="payment-card">
+									<div class="payment-icon">
+										<i class="fas fa-money-bill-wave"></i>
+									</div>
+									<div class="payment-info">
+										<h6>Thanh toán khi nhận hàng (COD)</h6>
+										<p>Thanh toán khi nhận hàng</p>
+									</div>
+								</label>
+							</div>
+							<div class="payment-option">
+								<input type="radio" name="paymentMethod" id="vnpayPayment" value="vnpay">
+								<label for="vnpayPayment" class="payment-card">
+									<div class="payment-icon">
+										<img src="/images/vnpay-logo.png" alt="VNPay" style="height: 20px;">
+									</div>
+									<div class="payment-info">
+										<h6>Thanh toán qua VNPay</h6>
+										<p>Thanh toán trực tuyến qua cổng VNPay</p>
+									</div>
+								</label>
+							</div>
+						</div>
+						<div class="mt-5">
+							<button type="submit" class="btn checkout-btn">Xác nhận đặt hàng</button>
+						</div>
+
+					</form>
+					<form method="POST" asp-action="CreatePaymentUrlVnpay" asp-controller="Cart">
+						<input type="hidden" name="Name" value="@Model.FullName" />
+						<input type="hidden" name="Amount" value="@((total + ViewBag.ShipPrice).ToString("F2"))" />
+						<input type="hidden" name="OrderDescription" value="Thanh toán đơn hàng @Model.Code" />
+						<input type="hidden" name="OrderType" value="other" />
+						<!-- Thêm các trường cần thiết -->
+						<input type="hidden" name="OrderId" value="@Model.Code" />
+						<input type="hidden" name="UserId" value="@Model.UserId" />
+						<input type="hidden" name="Address" value="@Model.Address" />
+						<input type="hidden" name="Phone" value="@Model.Phone" />
+						<input type="hidden" name="FeeShipId" value="@Model.FeeShipId" />
+						<input type="hidden" name="TotalAmount" value="@total" />
+
+						<button class="btn btn-success" type="submit">Thanh toán qua VNPay</button>
+					</form>
+				</div>
+			</div>
+			<!-- table-responsive -->
+
+		</div>
+	}
+	else
+	{
+		<div class="container">
+			<div class="cart-empty-box row">
+				<div class="col-sm-0 col-xl-3 col-lg-3"></div>
+				<div class="col-sm-12 col-lg-6 col-xl-6">
+					<img class="w-100" src="~/images/cart-empty.png" />
+					<p class="text-center cart-empty-title">Chưa có sản phẩm nào trong giỏ hàng</p>
+					<div class="text-center">
+						<a asp-action="Index" asp-controller="Home" class="btn btn-back-home">Quay lại cửa hàng</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+</div>
+
+@section Scripts {
+	<script>
+		$(document).ready(function () {
+			$('form').submit(function (e) {
+				var form = $(this);
+				if (form.valid()) {
+					// Hiển thị loading
+					$('.checkout-btn').html('<i class="fas fa-spinner fa-spin"></i> Đang xử lý...');
+					$('.checkout-btn').prop('disabled', true);
+
+					// Nếu là VNPay thì không cần hiển thị thông báo
+					if ($('#vnpayPayment').is(':checked')) {
+						return true;
+					}
+
+					// Nếu là COD thì hiển thị thông báo
+					e.preventDefault();
+					$.ajax({
+						url: form.attr('action'),
+						method: form.attr('method'),
+						data: form.serialize(),
+						success: function (response) {
+							window.location.href = response.redirectUrl;
+						},
+						error: function () {
+							$('.checkout-btn').html('Xác nhận đặt hàng');
+							$('.checkout-btn').prop('disabled', false);
+							alert('Có lỗi xảy ra, vui lòng thử lại');
+						}
+					});
+				}
+			});
+		});
+	</script>
+}
+	<script>
+		$(document).ready(function () {
+			// Xử lý khi thay đổi phương thức thanh toán
+			$('input[name="paymentMethodRadio"]').change(function () {
+				$('#selectedPaymentMethod').val($(this).val());
+			});
+
+			// Xử lý khi submit form
+			$('#mainCheckoutForm').submit(function (e) {
+				var paymentMethod = $('input[name="paymentMethodRadio"]:checked').val();
+
+				if (paymentMethod === 'vnpay') {
+					e.preventDefault();
+
+					// Hiển thị loading
+					$('.checkout-btn').html('<i class="fas fa-spinner fa-spin"></i> Đang chuyển hướng...');
+					$('.checkout-btn').prop('disabled', true);
+
+					// Gửi form bằng AJAX để lấy URL thanh toán VNPay
+					$.ajax({
+						url: '@Url.Action("CreatePaymentUrlVnpay", "Cart")',
+						method: 'POST',
+						data: $(this).serialize(),
+						success: function (response) {
+							if (response.url) {
+								window.location.href = response.url;
+							}
+						},
+						error: function () {
+							$('.checkout-btn').html('Xác nhận đặt hàng');
+							$('.checkout-btn').prop('disabled', false);
+							alert('Có lỗi xảy ra khi kết nối với VNPay');
+						}
+					});
+				}
+			});
+		});
+	</script>
+}
+<style>
+	 .payment-option {
+        margin-bottom: 10px;
+    }
+    
+    .payment-card {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    .payment-card:hover {
+        border-color: #007bff;
+    }
+    
+    input[type="radio"]:checked + .payment-card {
+        border-color: #007bff;
+        background-color: #f8f9fa;
+    }
+    
+    .payment-icon {
+        margin-right: 15px;
+        font-size: 24px;
+        color: #007bff;
+    }
+    
+    .payment-info h6 {
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    
+    .payment-info p {
+        margin: 0;
+        color: #6c757d;
+        font-size: 14px;
+    }
+    
+    input[type="radio"] {
+        display: none;
+    }
+</style>

@@ -1,0 +1,10 @@
+﻿@using ThuyTo.SessionSystem;
+<div class="sidebar-box product-one-col">
+    
+	@await Component.InvokeAsync("SidebarCategory", "product")
+
+	<div class="product-box">
+		<h4 class="sidebar-header-title text-center">Sản phẩm yêu thích</h4>
+		@await Component.InvokeAsync("ProductSession", SessionKey.FAVOURITEPRODUCT)
+	</div>
+</div>
